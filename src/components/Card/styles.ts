@@ -28,20 +28,20 @@ export const Tarefa = styled.div`
     height: 210px;
   }
 
-  .bnt-apagar-tarefa{
+  .bnt-apagar-tarefa {
     width: 60px;
     margin-left: 5px;
   }
 
   .tarefa-a-fazer {
-  background: linear-gradient(to right, #ff9966, #ff5e62);
-}
+    background: linear-gradient(to right, #ff9966, #ff5e62);
+  }
 
-.tarefa-em-andamento {
-  background: linear-gradient(to right, #CAC531, #F3F9A7);
-}
+  .tarefa-em-andamento {
+    background: linear-gradient(to right, #cac531, #f3f9a7);
+  }
 
-.tarefa-concluida {
-  background: linear-gradient(to right, #00b09b, #96c93d);
-}
+  .tarefa-concluida {
+    background: linear-gradient(to right, #00b09b, #96c93d);
+  }
 `;
