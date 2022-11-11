@@ -1,4 +1,3 @@
-// import { atualizarLocalStorage } from "./storage/localStorage";
 import { Tarefa } from "./styles";
 
 interface Props {
@@ -8,9 +7,7 @@ interface Props {
 
 export const Card = ({ titulo, descricao }: Props) => {
   return (
-    <Tarefa
-    //   onInput={()=> atualizarLocalStorage}
-    >
+    <Tarefa>
       <div className="titulo" contentEditable>
         {titulo}
       </div>
