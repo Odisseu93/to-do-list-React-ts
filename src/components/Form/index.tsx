@@ -1,10 +1,10 @@
 import { useRef, useEffect, useState, ChangeEvent } from "react";
 import { atualizarLocalStorage } from "../../storage/localStorage";
+import { Modal } from "./styles";
 
 function Form() {
   const TituloRef = useRef<null | HTMLInputElement>(null);
   const DescricaoRef = useRef<null | HTMLTextAreaElement>(null);
-  const modalRef = useRef<null | HTMLDialogElement>(null);
 
   const [estahAberto, setEstahAberto] = useState<boolean>(true);
   const [contadorTitulo, setContadorTitulo] = useState(0);
@@ -54,64 +54,66 @@ function Form() {
   }, [data]);
 
   return (
-    <dialog open={estahAberto} ref={modalRef}>
+    <Modal className="modal" open={estahAberto}>
       <form>
-        <fieldset>
-          <label htmlFor="titulo" className="lbls lbl-titulo">
-            Título
-          </label>
+        <label htmlFor="titulo" className="lbls lbl-titulo">
+          Título
+        </label>
+        <input
+          type="text"
+          id="titulo"
+          name="titulo"
+          ref={TituloRef}
+          onChange={handleOnchangeTitulo}
+          placeholder=" Título da tarefa"
+          maxLength={50}
+        />
+        <span>
+          <span id="contadorTitulo">{contadorTitulo}</span> /50
+        </span>
+        <label htmlFor="descricao" className="lbls lbl-descricao">
+          Descrição
+        </label>
+        <textarea
+          rows={5}
+          cols={40}
+          id="descricao"
+          name="descricao"
+          ref={DescricaoRef}
+          onChange={handleOnchangeDesc}
+          placeholder=" Uma breve descrição..."
+          maxLength={200}
+        ></textarea>
+        <span>
+          <span id="contadorDescricao">{contadorDesc}</span> /200
+        </span>
+        <div className="btns">
           <input
-            type="text"
-            id="titulo"
-            name="titulo"
-            ref={TituloRef}
-            onChange={handleOnchangeTitulo}
-            placeholder=" Título da tarefa"
-            maxLength={50}
+            type="button"
+            id="btnCadastrarTarefas"
+            name="cadastrarTarefas"
+            onClick={handleSubmit}
+            value="Enviar"
           />
-          <span>
-            <span id="contadorTitulo">{contadorTitulo}</span> /50
-          </span>
-          <label htmlFor="descricao" className="lbls lbl-descricao">
-            Descrição
-          </label>
-          <textarea
-            rows={5}
-            cols={40}
-            id="descricao"
-            name="descricao"
-            ref={DescricaoRef}
-            onChange={handleOnchangeDesc}
-            placeholder=" Uma breve descrição..."
-            maxLength={200}
-          ></textarea>
-          <span>
-            <span id="contadorDescricao">{contadorDesc}</span> /200
-          </span>
-        </fieldset>
-        <input
-          type="button"
-          id="btnCadastrarTarefas"
-          name="cadastrarTarefas"
-          onClick={handleSubmit}
-          value="Enviar"
-        />
-        <input
-          type="button"
-          id="btnCancelar"
-          name="cancelar"
-          onClick={() => setEstahAberto(false)}
-          value="Cancelar"
-        />
-        <b>Status: </b>
-        <select id="status" onChange={(e) => handleOnchangeSelect(e)}>
-          <option value="">-- Selecione um status --</option>
-          <option value="A Fazer">A Fazer</option>
-          <option value="Em Andamento">Em Andamento</option>
-          <option value="Concluído">Concluído</option>
-        </select>
+          <input
+            type="button"
+            id="btnCancelar"
+            name="cancelar"
+            onClick={() => setEstahAberto(false)}
+            value="Cancelar"
+          />
+        </div>
+        <section className="status">
+          <b>Status: </b>
+          <select id="status" onChange={(e) => handleOnchangeSelect(e)}>
+            <option value="">-- Selecione um status --</option>
+            <option value="A Fazer">A Fazer</option>
+            <option value="Em Andamento">Em Andamento</option>
+            <option value="Concluído">Concluído</option>
+          </select>
+        </section>
       </form>
-    </dialog>
+    </Modal>
   );
 }
 
