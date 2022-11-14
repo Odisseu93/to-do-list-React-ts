@@ -1,16 +1,19 @@
-import { useRef, useEffect, useState, ChangeEvent } from "react";
+import { useRef, useEffect, useState, ChangeEvent, useContext } from "react";
+import { ModalContext } from "../../userContext";
 import { atualizarLocalStorage } from "../../storage/localStorage";
 import { Modal } from "./styles";
+
+export const dataFromStorage = JSON.parse(localStorage.data);
 
 function Form() {
   const TituloRef = useRef<null | HTMLInputElement>(null);
   const DescricaoRef = useRef<null | HTMLTextAreaElement>(null);
 
-  const [estahAberto, setEstahAberto] = useState<boolean>(true);
+  const [openModal, setOpenModal] = useContext(ModalContext);
   const [contadorTitulo, setContadorTitulo] = useState(0);
   const [contadorDesc, setContadorDesc] = useState(0);
   const [statusValue, setStatusValue] = useState<string>("");
-  const [data, setData] = useState<object | undefined>();
+  const [dataState, setDataState] = useState<Array<any>>(dataFromStorage);
 
   const handleOnchangeTitulo = () => {
     setContadorTitulo(TituloRef.current!.value.length);
@@ -26,35 +29,40 @@ function Form() {
   };
 
   const handleSubmit = () => {
-    setData({
-      titulo: TituloRef.current!.value,
-      descricao: DescricaoRef.current!.value,
-      status: statusValue,
-    });
+    if (localStorage.data) {
+      setDataState([
+        ...dataFromStorage,
+        {
+          titulo: TituloRef.current!.value,
+          descricao: DescricaoRef.current!.value,
+          status: statusValue,
+        },
+      ]);
+    } else {
+      setDataState([
+        {
+          titulo: TituloRef.current!.value,
+          descricao: DescricaoRef.current!.value,
+          status: statusValue,
+        },
+      ]);
+    }
   };
 
   useEffect(() => {
-    if (data !== undefined) {
-      atualizarLocalStorage(data);
+    if (dataState !== undefined) {
+      atualizarLocalStorage(dataState);
     }
-    try {
-      for (let i = 0; i < localStorage.length; i++) {
-        console.log(
-          "Título: " +
-            JSON.parse(localStorage.getItem("card" + i)!.toString()).titulo,
-          "Descrição: " +
-            JSON.parse(localStorage.getItem("card" + i)!.toString()).descricao,
-          "Status: " +
-            JSON.parse(localStorage.getItem("card" + i)!.toString()).status
-        );
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }, [data]);
+    // try {
+    //   // console.log(dataState);
+    //   for (let tarefa of dataState) console.log(tarefa.titulo);
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  }, [dataState]);
 
   return (
-    <Modal className="modal" open={estahAberto}>
+    <Modal className="modal" open={typeof "boolean" && openModal}>
       <form>
         <label htmlFor="titulo" className="lbls lbl-titulo">
           Título
@@ -99,7 +107,7 @@ function Form() {
             type="button"
             id="btnCancelar"
             name="cancelar"
-            onClick={() => setEstahAberto(false)}
+            onClick={() => setOpenModal(() => false)}
             value="Cancelar"
           />
         </div>

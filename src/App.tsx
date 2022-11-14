@@ -1,28 +1,34 @@
-import Form from "./components/Form";
-import { Card } from "./components/Container/Card";
+import Form, { dataFromStorage } from "./components/Form";
+import { useState } from "react";
 import GlobalStyle from "./styles/global";
+import { ButtonShowModal } from "./components/ButtonShowModal";
 import { Container } from "./components/Container/styles";
+import { ListadeTarefas } from "./components/Container/ListadeTarefas/ListadeTarefas";
+import { Card } from "./components/Container/ListadeTarefas/Card";
+import { ModalContext } from "./userContext";
 
 function App() {
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
   return (
     <div className="App">
       <GlobalStyle />
-      <Form />
+      <ModalContext.Provider value={[openModal, setOpenModal]}>
+        <ButtonShowModal handleClick={() => setOpenModal(() => true)} />
+        <Form />
+      </ModalContext.Provider>
       <Container>
-        {Array.from(localStorage).map((item, index) => {
-          const titulo = JSON.parse(
-            localStorage.getItem("card" + index)!.toString()
-          ).titulo;
-          const descricao = JSON.parse(
-            localStorage.getItem("card" + index)!.toString()
-          ).descricao;
-          const status = JSON.parse(
-            localStorage.getItem("card" + index)!.toString()
-          ).status;
-          return (
-            <Card key={"card" + index} titulo={titulo} descricao={descricao} />
-          );
-        })}
+        <ListadeTarefas>
+          {dataFromStorage.map((tarefa: any, index: number) => {
+            return (
+              <Card
+                key={index}
+                titulo={tarefa.titulo}
+                descricao={tarefa.descricao}
+              />
+            );
+          })}
+        </ListadeTarefas>
       </Container>
     </div>
   );
