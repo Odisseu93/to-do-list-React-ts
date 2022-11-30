@@ -9,8 +9,9 @@ export let dataFromStorage: any;
 localStorage.data ? (dataFromStorage = JSON.parse(localStorage.data)) : {};
 
 function Form() {
-  const TituloRef = useRef<null | HTMLInputElement>(null);
-  const DescricaoRef = useRef<null | HTMLTextAreaElement>(null);
+  const tituloRef = useRef<null | HTMLInputElement>(null);
+  const descricaoRef = useRef<null | HTMLTextAreaElement>(null);
+  const statusRef = useRef<null | HTMLSelectElement>(null);
 
   const [openModal, setOpenModal] =
     useContext<[boolean, React.Dispatch<React.SetStateAction<boolean>>]>(
@@ -117,7 +118,11 @@ function Form() {
         </div>
         <section className="status">
           <b>Status: </b>
-          <select id="status" onChange={(e) => handleOnchangeSelect(e)}>
+          <select
+            id="status"
+            ref={statusRef}
+            onChange={(e) => handleOnchangeSelect(e)}
+          >
             <option value="">-- Selecione um status --</option>
             <option value="A Fazer">A Fazer</option>
             <option value="Em Andamento">Em Andamento</option>
