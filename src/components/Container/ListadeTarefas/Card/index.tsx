@@ -10,10 +10,18 @@ export interface ICardProps {
 export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
   return (
     <Tarefa id={id}>
-      <div className="titulo" contentEditable="true">
+      <div
+        className="titulo"
+        contentEditable="true"
+        suppressContentEditableWarning={true}
+      >
         {titulo}
       </div>
-      <div className="descricao" contentEditable="true">
+      <div
+        className="descricao"
+        contentEditable="true"
+        suppressContentEditableWarning={true}
+      >
         {descricao}
       </div>
       <b>Status: </b>
