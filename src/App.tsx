@@ -1,14 +1,17 @@
-import Form, { dataFromStorage } from "./components/Form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GlobalStyle from "./styles/global";
 import { ButtonShowModal } from "./components/ButtonShowModal";
 import { Container } from "./components/Container/styles";
 import { ListadeTarefas } from "./components/Container/ListadeTarefas/ListadeTarefas";
 import { Card } from "./components/Container/ListadeTarefas/Card";
 import { ModalContext } from "./userContext";
+import Form from "./components/Form";
+import { useData } from "./contexts/data/useData";
 
 function App() {
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState(false);
+
+  const { data, setData } = useData();
 
   return (
     <div className="App">
@@ -19,14 +22,18 @@ function App() {
       </ModalContext.Provider>
       <Container>
         <ListadeTarefas>
-          {dataFromStorage.map((tarefa: any, index: number) => {
-            return (
-              <Card
-                key={index}
-                titulo={tarefa.titulo}
-                descricao={tarefa.descricao}
-              />
-            );
+          {data.map(({ id, titulo, descricao, status }: any, index: number) => {
+            if (index > 0) {
+              return (
+                <Card
+                  key={index}
+                  id={id}
+                  titulo={titulo}
+                  descricao={descricao}
+                  status={status}
+                />
+              );
+            } else null;
           })}
         </ListadeTarefas>
       </Container>

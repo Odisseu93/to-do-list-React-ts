@@ -2,18 +2,24 @@ import { useRef, useEffect, useState, ChangeEvent, useContext } from "react";
 import { ModalContext } from "../../userContext";
 import { atualizarLocalStorage } from "../../storage/localStorage";
 import { Modal } from "./styles";
+import { useData } from "../../contexts/data/useData";
 
-export const dataFromStorage = JSON.parse(localStorage.data);
+// const dataFromStorage:any
+export let dataFromStorage: any;
+localStorage.data ? (dataFromStorage = JSON.parse(localStorage.data)) : {};
 
 function Form() {
   const TituloRef = useRef<null | HTMLInputElement>(null);
   const DescricaoRef = useRef<null | HTMLTextAreaElement>(null);
 
-  const [openModal, setOpenModal] = useContext(ModalContext);
+  const [openModal, setOpenModal] =
+    useContext<[boolean, React.Dispatch<React.SetStateAction<boolean>>]>(
+      ModalContext
+    );
   const [contadorTitulo, setContadorTitulo] = useState(0);
   const [contadorDesc, setContadorDesc] = useState(0);
   const [statusValue, setStatusValue] = useState<string>("");
-  const [dataState, setDataState] = useState<Array<any>>(dataFromStorage);
+  const { data, setData } = useData();
 
   const handleOnchangeTitulo = () => {
     setContadorTitulo(TituloRef.current!.value.length);
@@ -28,41 +34,39 @@ function Form() {
     setStatusValue(input);
   };
 
-  const handleSubmit = () => {
+  window.onload = () => {
     if (localStorage.data) {
-      setDataState([
-        ...dataFromStorage,
-        {
-          titulo: TituloRef.current!.value,
-          descricao: DescricaoRef.current!.value,
-          status: statusValue,
-        },
-      ]);
-    } else {
-      setDataState([
-        {
-          titulo: TituloRef.current!.value,
-          descricao: DescricaoRef.current!.value,
-          status: statusValue,
-        },
-      ]);
+      setData([...dataFromStorage]);
+      console.log(data);
     }
   };
 
+  const handleSubmit = () => {
+    const token = Math.random().toString(36).substring(2);
+    setData([
+      ...data,
+      {
+        id: token,
+        titulo: TituloRef.current!.value,
+        descricao: DescricaoRef.current!.value,
+        status: statusValue,
+      },
+    ]);
+    console.log(data);
+  };
+
   useEffect(() => {
-    if (dataState !== undefined) {
-      atualizarLocalStorage(dataState);
+    if (data.length > 1) {
+      atualizarLocalStorage(data);
     }
-    // try {
-    //   // console.log(dataState);
-    //   for (let tarefa of dataState) console.log(tarefa.titulo);
-    // } catch (error) {
-    //   console.error(error);
-    // }
-  }, [dataState]);
+    try {
+    } catch (error) {
+      console.error(error);
+    }
+  }, [data]);
 
   return (
-    <Modal className="modal" open={typeof "boolean" && openModal}>
+    <Modal className="modal" open={openModal}>
       <form>
         <label htmlFor="titulo" className="lbls lbl-titulo">
           Título

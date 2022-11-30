@@ -1,25 +1,41 @@
 import { Tarefa } from "./styles";
 
-interface Props {
+export interface ICardProps {
+  id: string;
   titulo: string;
   descricao: string;
+  status: string;
 }
 
-export const Card = ({ titulo, descricao }: Props) => {
+export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
   return (
-    <Tarefa>
-      <div className="titulo" contentEditable>
+    <Tarefa id={id}>
+      <div className="titulo" contentEditable="true">
         {titulo}
       </div>
-      <div className="descricao" contentEditable>
+      <div className="descricao" contentEditable="true">
         {descricao}
       </div>
       <b>Status: </b>
       <select id="status">
-        <option value="">-- Selecione um status --</option>
-        <option value="A Fazer">A Fazer</option>
-        <option value="Em Andamento">Em Andamento</option>
-        <option value="Concluído">Concluído</option>
+        <option value="" selected={status === "" ? true : false}>
+          -- Selecione um status --
+        </option>
+        <option value="A Fazer" selected={status === "A Fazer" ? true : false}>
+          A Fazer
+        </option>
+        <option
+          value="Em Andamento"
+          selected={status === "Em Andamento" ? true : false}
+        >
+          Em Andamento
+        </option>
+        <option
+          value="Concluído"
+          selected={status === "Concluído" ? true : false}
+        >
+          Concluído
+        </option>
       </select>
       <button id="bntApagarTarefa" className="bnt-apagar-tarefa">
         Apagar
