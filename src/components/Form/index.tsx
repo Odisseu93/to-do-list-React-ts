@@ -23,11 +23,11 @@ function Form() {
   const { data, setData } = useData();
 
   const handleOnchangeTitulo = () => {
-    setContadorTitulo(TituloRef.current!.value.length);
+    setContadorTitulo(tituloRef.current!.value.length);
   };
 
   const handleOnchangeDesc = () => {
-    setContadorDesc(DescricaoRef.current!.value.length);
+    setContadorDesc(descricaoRef.current!.value.length);
   };
 
   const handleOnchangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -48,12 +48,14 @@ function Form() {
       ...data,
       {
         id: token,
-        titulo: TituloRef.current!.value,
-        descricao: DescricaoRef.current!.value,
+        titulo: tituloRef.current!.value,
+        descricao: descricaoRef.current!.value,
         status: statusValue,
       },
     ]);
-    console.log(data);
+    descricaoRef.current!.value = "";
+    tituloRef.current!.value = "";
+    statusRef.current!.value = "";
   };
 
   useEffect(() => {
@@ -76,7 +78,7 @@ function Form() {
           type="text"
           id="titulo"
           name="titulo"
-          ref={TituloRef}
+          ref={tituloRef}
           onChange={handleOnchangeTitulo}
           placeholder=" Título da tarefa"
           maxLength={50}
@@ -92,7 +94,7 @@ function Form() {
           cols={40}
           id="descricao"
           name="descricao"
-          ref={DescricaoRef}
+          ref={descricaoRef}
           onChange={handleOnchangeDesc}
           placeholder=" Uma breve descrição..."
           maxLength={200}
