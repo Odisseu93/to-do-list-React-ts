@@ -125,10 +125,10 @@ function Form() {
             ref={statusRef}
             onChange={(e) => handleOnchangeSelect(e)}
           >
-            <option value="">-- Selecione um status --</option>
-            <option value="A Fazer">A Fazer</option>
-            <option value="Em Andamento">Em Andamento</option>
-            <option value="Concluído">Concluído</option>
+            <option value="default">-- Selecione um status --</option>
+            <option value="afazer">A Fazer</option>
+            <option value="fazendo">Em Andamento</option>
+            <option value="feito">Concluído</option>
           </select>
         </section>
       </form>

@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const Tarefa = styled.div`
+interface ITarefa {
+  styleStatus?: string;
+}
+
+export const Tarefa = styled.div<ITarefa>`
   border-radius: 8px;
   padding: 10px;
   margin: 10px;
@@ -8,7 +12,14 @@ export const Tarefa = styled.div`
   height: auto;
   overflow-wrap: break-word;
   box-shadow: 0 0 9px blue;
-  background: rgba(39, 127, 245, 0.15);
+  background: ${(props) =>
+    (props.styleStatus === "default" && "rgba(39, 127, 245, 0.15)") ||
+    (props.styleStatus === "afazer" &&
+      "linear-gradient(to right, #ff9966, #ff5e62)") ||
+    (props.styleStatus === "fazendo" &&
+      "linear-gradient(to right, #cac531, #f3f9a7)") ||
+    (props.styleStatus === "feito" &&
+      "linear-gradient(to right, #00b09b, #96c93d)")};
 
   .titulo {
     background: #fdeedc;

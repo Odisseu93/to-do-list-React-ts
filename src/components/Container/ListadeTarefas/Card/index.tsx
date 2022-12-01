@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Tarefa } from "./styles";
 
 export interface ICardProps {
@@ -8,8 +9,21 @@ export interface ICardProps {
 }
 
 export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
+  const statusRef = useRef<null | HTMLSelectElement>(null);
+  const [statusStyle, setStatusStyle] = useState(status);
+
+  function handleSelect() {
+    setStatusStyle(() => statusRef.current!.value);
+
+    return;
+  }
+
+  useEffect(() => {
+    console.log(statusStyle);
+  }, [statusStyle]);
+
   return (
-    <Tarefa id={id}>
+    <Tarefa id={id} styleStatus={statusStyle}>
       <div
         className="titulo"
         contentEditable="true"
@@ -25,23 +39,17 @@ export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
         {descricao}
       </div>
       <b>Status: </b>
-      <select id="status">
-        <option value="" selected={status === "" ? true : false}>
+      <select id="status" onChange={handleSelect} ref={statusRef}>
+        <option value="default" selected={status === "default" ? true : false}>
           -- Selecione um status --
         </option>
-        <option value="A Fazer" selected={status === "A Fazer" ? true : false}>
+        <option value="afazer" selected={status === "afazer" ? true : false}>
           A Fazer
         </option>
-        <option
-          value="Em Andamento"
-          selected={status === "Em Andamento" ? true : false}
-        >
+        <option value="fazendo" selected={status === "fazendo" ? true : false}>
           Em Andamento
         </option>
-        <option
-          value="Concluído"
-          selected={status === "Concluído" ? true : false}
-        >
+        <option value="feito" selected={status === "feito" ? true : false}>
           Concluído
         </option>
       </select>
