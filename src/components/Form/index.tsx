@@ -61,7 +61,7 @@ function Form() {
   useEffect(() => {
     if (data.length > 1) {
       atualizarLocalStorage(data);
-    }
+    } else atualizarLocalStorage([{}]);
     try {
     } catch (error) {
       console.error(error);
