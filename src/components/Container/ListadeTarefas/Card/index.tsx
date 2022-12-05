@@ -11,6 +11,8 @@ export interface ICardProps {
 
 export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
   const statusRef = useRef<null | HTMLSelectElement>(null);
+  const tituloRef = useRef<null | HTMLInputElement>(null);
+  const descricaoRef = useRef<null | HTMLTextAreaElement>(null);
   const [statusStyle, setStatusStyle] = useState(status);
   const { data, setData } = useData();
 
@@ -20,51 +22,62 @@ export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
     return;
   }
 
-  function handleOnChange() {
+  function handleTitleOnInput(e: React.FormEvent<HTMLInputElement>) {
+    tituloRef.current!.value = e.currentTarget.value;
+  }
+
+  function handleDescOnInput(e: React.FormEvent<HTMLTextAreaElement>) {
+    descricaoRef.current!.value = e.currentTarget.value;
+  }
+
+  function handleOnChange(e: React.FormEvent<HTMLDivElement>) {
     setStatusStyle(() => statusRef.current!.value);
+    const idTarget = e.currentTarget.id;
+
+    const targetIndex = data.findIndex((item) => item.id == idTarget);
+
+    data.splice(targetIndex, 1, {
+      id: idTarget,
+      titulo: tituloRef.current?.value,
+      descricao: descricaoRef.current?.value,
+      status: statusRef.current?.value,
+    });
+
+    setData([...data]);
 
     return;
   }
 
   function handleDelete(e: React.MouseEvent<HTMLButtonElement>) {
-    // console.log(e.currentTarget.parentElement?.id);
-
-    const deletIndex = data.findIndex(
-      (item) => item.id == e.currentTarget.parentElement?.id
-    );
-
-    // data.splice(deletIndex, 1);
-
-    const arr = data.filter(
+    const updateData = data.filter(
       (item) => item.id !== e.currentTarget.parentElement?.id
     );
-    setData(() => arr);
+    setData(() => updateData);
     data.length === 1 && setData(() => [{}]);
-    console.log(data);
 
     return;
   }
 
   useEffect(() => {
-    setStatusStyle(() => statusRef.current!.value);
-  }, [Tarefa]);
+    tituloRef.current!.value = titulo;
+    descricaoRef.current!.value = descricao;
+  }, []);
 
   return (
     <Tarefa id={id} onChange={handleOnChange} styleStatus={statusStyle}>
-      <div
+      <input
+        type="text"
         className="titulo"
-        contentEditable="true"
-        suppressContentEditableWarning={true}
-      >
-        {titulo}
-      </div>
-      <div
+        ref={tituloRef}
+        onInput={handleTitleOnInput}
+        maxLength={50}
+      />
+      <textarea
         className="descricao"
-        contentEditable="true"
-        suppressContentEditableWarning={true}
-      >
-        {descricao}
-      </div>
+        ref={descricaoRef}
+        onInput={handleDescOnInput}
+        maxLength={200}
+      />
       <b>Status: </b>
       <select id="status" onChange={handleSelect} ref={statusRef}>
         <option value="default" selected={status === "default" ? true : false}>
