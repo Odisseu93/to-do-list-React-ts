@@ -69,7 +69,7 @@ function Form() {
   }, [data]);
 
   return (
-    <Modal className="modal" open={openModal}>
+    <Modal className="modal">
       <form>
         <label htmlFor="titulo" className="lbls lbl-titulo">
           Título

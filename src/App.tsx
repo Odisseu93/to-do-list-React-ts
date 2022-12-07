@@ -18,7 +18,7 @@ function App() {
       <GlobalStyle />
       <ModalContext.Provider value={[openModal, setOpenModal]}>
         <ButtonShowModal handleClick={() => setOpenModal(() => true)} />
-        <Form />
+        {openModal && <Form />}
       </ModalContext.Provider>
       <Container>
         <ListadeTarefas>
