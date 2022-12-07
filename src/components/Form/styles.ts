@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
-export const Modal = styled.div`
-  display: grid;
+interface prop {
+  open: boolean;
+}
+
+export const Modal = styled.div<prop>`
+  display: ${(props) => (props.open == true ? "grid" : "none")};
   height: 90vh;
   width: 99vw;
   justify-content: center;
