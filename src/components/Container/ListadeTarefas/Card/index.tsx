@@ -79,7 +79,7 @@ export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
         onInput={handleDescOnInput}
         maxLength={200}
       />
-      <b>Status: </b>
+      <b>Status </b>
       <select
         id="status"
         onChange={handleSelect}

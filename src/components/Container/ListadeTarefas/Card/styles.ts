@@ -51,12 +51,19 @@ export const Tarefa = styled.div<ITarefa>`
   }
 
   .select-status {
+    width: 80%;
+    font-size: 18px;
     cursor: pointer;
+  }
+
+  b {
+    font-size: 20px;
   }
 
   .bnt-apagar-tarefa {
     width: fit-content;
-    margin-left: 20px;
+    margin-left: 9.1rem;
+    margin-top: 0.62rem;
     border-radius: 5px;
     cursor: pointer;
     &:hover {
