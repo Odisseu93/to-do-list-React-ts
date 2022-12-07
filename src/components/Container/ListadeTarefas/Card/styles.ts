@@ -27,6 +27,7 @@ export const Tarefa = styled.div<ITarefa>`
     width: 100%;
     color: #3e3ebf;
     border-radius: 6px;
+    font-size: 20px;
     font-weight: bold;
   }
 
@@ -37,6 +38,7 @@ export const Tarefa = styled.div<ITarefa>`
     padding: 10px;
     line-height: 1.3rem;
     width: 279px;
+    font-size: 20px;
     height: 210px;
   }
 
