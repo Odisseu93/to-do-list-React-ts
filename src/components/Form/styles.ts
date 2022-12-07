@@ -5,9 +5,9 @@ interface prop {
 }
 
 export const Modal = styled.div<prop>`
-  display: ${(props) => (props.open == true ? "grid" : "none")};
-  height: 90vh;
-  width: 99vw;
+  display: ${(props) => (props.open === true ? "grid" : "none")};
+  height: 100vh;
+  width: 100vw;
   justify-content: center;
   border: none;
   position: absolute;
