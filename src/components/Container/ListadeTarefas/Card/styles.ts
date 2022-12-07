@@ -29,6 +29,10 @@ export const Tarefa = styled.div<ITarefa>`
     border-radius: 6px;
     font-size: 20px;
     font-weight: bold;
+    cursor: pointer;
+    &:hover {
+      transform: scale(0.99);
+    }
   }
 
   .descricao {
@@ -40,11 +44,20 @@ export const Tarefa = styled.div<ITarefa>`
     width: 279px;
     font-size: 20px;
     height: 210px;
+    cursor: pointer;
+    &:hover {
+      transform: scale(0.99);
+    }
+  }
+
+  .select-status {
+    cursor: pointer;
   }
 
   .bnt-apagar-tarefa {
     width: 60px;
     margin-left: 5px;
+    cursor: pointer;
   }
 
   .tarefa-a-fazer {

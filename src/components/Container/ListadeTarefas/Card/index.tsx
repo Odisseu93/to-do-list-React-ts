@@ -79,7 +79,12 @@ export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
         maxLength={200}
       />
       <b>Status: </b>
-      <select id="status" onChange={handleSelect} ref={statusRef}>
+      <select
+        id="status"
+        onChange={handleSelect}
+        className="select-status"
+        ref={statusRef}
+      >
         <option value="default" selected={status === "default" ? true : false}>
           -- Selecione um status --
         </option>
