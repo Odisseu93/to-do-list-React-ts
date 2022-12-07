@@ -1,6 +1,7 @@
 import { useData } from "../../../../contexts/data/useData";
 import { useEffect, useRef, useState } from "react";
 import { Tarefa } from "./styles";
+import trashIcon from "../Card/icons8-waste-24.png";
 
 export interface ICardProps {
   id: string;
@@ -103,7 +104,7 @@ export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
         className="bnt-apagar-tarefa"
         onClick={handleDelete}
       >
-        Apagar
+        <img src={trashIcon} alt="ícone de uma lixeira" />
       </button>
     </Tarefa>
   );

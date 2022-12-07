@@ -55,9 +55,13 @@ export const Tarefa = styled.div<ITarefa>`
   }
 
   .bnt-apagar-tarefa {
-    width: 60px;
-    margin-left: 5px;
+    width: fit-content;
+    margin-left: 20px;
+    border-radius: 5px;
     cursor: pointer;
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 
   .tarefa-a-fazer {
