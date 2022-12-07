@@ -41,6 +41,7 @@ export const Tarefa = styled.div<ITarefa>`
     border: 1px solid #000;
     padding: 10px;
     line-height: 1.3rem;
+    resize: none;
     width: 279px;
     font-size: 20px;
     height: 210px;

@@ -39,6 +39,7 @@ export const Modal = styled.div`
   textarea {
     width: 325px;
     font-size: inherit;
+    resize: none;
     display: block;
     border: none;
   }
