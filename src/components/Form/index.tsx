@@ -55,7 +55,7 @@ function Form() {
     ]);
     descricaoRef.current!.value = "";
     tituloRef.current!.value = "";
-    statusRef.current!.value = "";
+    statusRef.current!.value = "default";
   };
 
   useEffect(() => {
