@@ -4,7 +4,7 @@ import { Tarefa } from "./styles";
 import trashIcon from "../Card/icons8-waste-24.png";
 
 export interface ICardProps {
-  id: string;
+  id?: string;
   titulo: string;
   descricao: string;
   status: string;
@@ -35,7 +35,7 @@ export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
     setStatusStyle(() => statusRef.current!.value);
     const idTarget = e.currentTarget.id;
 
-    const targetIndex = data.findIndex((item) => item.id == idTarget);
+    const targetIndex = data.findIndex((item) => `${item}${id}` == idTarget);
 
     data.splice(targetIndex, 1, {
       id: idTarget,
@@ -51,7 +51,7 @@ export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
 
   function handleDelete(e: React.MouseEvent<HTMLButtonElement>) {
     const updateData = data.filter(
-      (item) => item.id !== e.currentTarget.parentElement?.id
+      (item) => `${item}${id}` !== e.currentTarget.parentElement?.id
     );
     setData(() => updateData);
     data.length === 1 && setData(() => [{}]);
