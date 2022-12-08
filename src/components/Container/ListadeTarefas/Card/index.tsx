@@ -5,6 +5,7 @@ import trashIcon from "../Card/icons8-waste-24.png";
 
 export interface ICardProps {
   id?: string;
+  id?: string;
   titulo: string;
   descricao: string;
   status: string;
