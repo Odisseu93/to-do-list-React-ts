@@ -1,7 +1,8 @@
-import { useData } from "../../../../contexts/data/useData";
-import { useEffect, useRef, useState } from "react";
-import { Tarefa } from "./styles";
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import trashIcon from "../Card/icons8-waste-24.png";
+import { ICard, remove, update } from "./../../../../redux/slice";
+import { Tarefa } from "./styles";
 
 export interface ICardProps {
   id?: string;
@@ -14,14 +15,8 @@ export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
   const statusRef = useRef<null | HTMLSelectElement>(null);
   const tituloRef = useRef<null | HTMLInputElement>(null);
   const descricaoRef = useRef<null | HTMLTextAreaElement>(null);
-  const [statusStyle, setStatusStyle] = useState(status);
-  const { data, setData } = useData();
-
-  function handleSelect() {
-    setStatusStyle(() => statusRef.current!.value);
-
-    return;
-  }
+  const dispatch = useDispatch();
+  const cards = useSelector((state: any) => state.todos);
 
   function handleTitleOnInput(e: React.FormEvent<HTMLInputElement>) {
     tituloRef.current!.value = e.currentTarget.value;
@@ -32,30 +27,22 @@ export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
   }
 
   function handleOnChange(e: React.FormEvent<HTMLDivElement>) {
-    setStatusStyle(() => statusRef.current!.value);
     const idTarget = e.currentTarget.id;
 
-    const targetIndex = data.findIndex((item: any) => item.id == idTarget);
-
-    data.splice(targetIndex, 1, {
-      id: idTarget,
-      titulo: tituloRef.current?.value,
-      descricao: descricaoRef.current?.value,
-      status: statusRef.current?.value,
-    });
-
-    setData([...data]);
+    dispatch(
+      update({
+        id: String(idTarget),
+        titulo: tituloRef.current?.value,
+        descricao: descricaoRef.current?.value,
+        status: statusRef.current?.value,
+      })
+    );
 
     return;
   }
 
   function handleDelete(e: React.MouseEvent<HTMLButtonElement>) {
-    const updateData = data.filter(
-      (item: any) => item.id !== e.currentTarget.parentElement?.id
-    );
-    setData(() => updateData);
-    data.length === 1 && setData(() => [{}]);
-
+    dispatch(remove({ id: String(e.currentTarget.parentElement?.id) }));
     return;
   }
 
@@ -65,7 +52,15 @@ export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
   }, []);
 
   return (
-    <Tarefa id={id} onChange={handleOnChange} styleStatus={statusStyle}>
+    <Tarefa
+      id={id}
+      onChange={handleOnChange}
+      styleStatus={
+        cards.find((item: ICard) => item.id === id)
+          ? cards.find((item: ICard) => item.id === id).status
+          : null
+      }
+    >
       <input
         type="text"
         className="titulo"
@@ -80,12 +75,7 @@ export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
         maxLength={200}
       />
       <b>Status </b>
-      <select
-        id="status"
-        onChange={handleSelect}
-        className="select-status"
-        ref={statusRef}
-      >
+      <select id="status" className="select-status" ref={statusRef}>
         <option value="default" selected={status === "default" ? true : false}>
           -- Selecione um status --
         </option>

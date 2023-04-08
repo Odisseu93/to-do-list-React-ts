@@ -1,12 +1,16 @@
 import { useRef, useEffect, useState, ChangeEvent, useContext } from "react";
 import { ModalContext } from "../../userContext";
-import { atualizarLocalStorage } from "../../storage/localStorage";
+import {
+  getDataLocalStorage,
+  setDataLocalStorage,
+} from "../../storage/localStorage";
 import { Modal } from "./styles";
-import { useData } from "../../contexts/data/useData";
+import { useDispatch, useSelector } from "react-redux";
+import { ICard, add } from "./../../redux/slice";
 
 // const dataFromStorage:any
-export let dataFromStorage: any;
-localStorage.data ? (dataFromStorage = JSON.parse(localStorage.data)) : {};
+export let dataFromStorage: ICard;
+dataFromStorage = getDataLocalStorage("data") ?? {};
 
 function Form() {
   const tituloRef = useRef<null | HTMLInputElement>(null);
@@ -20,7 +24,8 @@ function Form() {
   const [contadorTitulo, setContadorTitulo] = useState(0);
   const [contadorDesc, setContadorDesc] = useState(0);
   const [statusValue, setStatusValue] = useState<string>("");
-  const { data, setData } = useData();
+  const data = useSelector((state: any) => state.todos);
+  const dispatch = useDispatch();
 
   const handleOnchangeTitulo = () => {
     setContadorTitulo(tituloRef.current!.value.length);
@@ -35,38 +40,22 @@ function Form() {
     setStatusValue(input);
   };
 
-  window.onload = () => {
-    if (localStorage.data) {
-      setData([...dataFromStorage]);
-      console.log(data);
-    }
-  };
 
   const handleSubmit = () => {
-    const token = Math.random().toString(36).substring(2);
-    setData([
-      ...data,
-      {
-        id: token,
+    const randomID8char = crypto.randomUUID().toString().substring(8);
+
+    dispatch(
+      add({
+        id: randomID8char,
         titulo: tituloRef.current!.value,
         descricao: descricaoRef.current!.value,
         status: statusValue,
-      },
-    ]);
+      })
+    );
     descricaoRef.current!.value = "";
     tituloRef.current!.value = "";
     statusRef.current!.value = "default";
   };
-
-  useEffect(() => {
-    if (data.length > 1) {
-      atualizarLocalStorage(data);
-    } else atualizarLocalStorage([{}]);
-    try {
-    } catch (error) {
-      console.error(error);
-    }
-  }, [data]);
 
   return (
     <Modal className="modal" open={openModal}>

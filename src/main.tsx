@@ -1,12 +1,13 @@
-import { DataContextProvider } from "./contexts/data/contextProvider";
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
 import App from "./App";
 import { Footer } from "./components/Footer/styles";
+import { store } from "./redux/store";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <DataContextProvider>
+    <Provider store={store}>
       <App />
       <Footer>
         <span className="wrapper">
@@ -20,6 +21,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           </a>
         </span>
       </Footer>
-    </DataContextProvider>
+    </Provider>
   </React.StrictMode>
 );

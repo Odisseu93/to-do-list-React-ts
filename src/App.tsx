@@ -1,17 +1,22 @@
-import { useState, useEffect } from "react";
-import GlobalStyle from "./styles/global";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { ButtonShowModal } from "./components/ButtonShowModal";
-import { Container } from "./components/Container/styles";
-import { ListadeTarefas } from "./components/Container/ListadeTarefas/ListadeTarefas";
 import { Card } from "./components/Container/ListadeTarefas/Card";
-import { ModalContext } from "./userContext";
+import { ListadeTarefas } from "./components/Container/ListadeTarefas/ListadeTarefas";
+import { Container } from "./components/Container/styles";
 import Form from "./components/Form";
-import { useData } from "./contexts/data/useData";
+import { ICard } from "./redux/slice";
+import GlobalStyle from "./styles/global";
+import { ModalContext } from "./userContext";
 
 function App() {
   const [openModal, setOpenModal] = useState(false);
+  const todos = useSelector((state: any) => state.todos);
+  const [data, setdata] = useState(todos);
 
-  const { data, setData } = useData();
+  useEffect(() => {
+    setdata(todos);
+  }, [todos]);
 
   return (
     <div className="App">
@@ -22,19 +27,23 @@ function App() {
       </ModalContext.Provider>
       <Container>
         <ListadeTarefas>
-          {data.map(({ id, titulo, descricao, status }: any, index: number) => {
-            if (index > 0) {
-              return (
-                <Card
-                  key={index}
-                  id={id}
-                  titulo={titulo}
-                  descricao={descricao}
-                  status={status}
-                />
-              );
-            } else null;
-          })}
+          {data
+            ? data
+                .slice(1)
+                .map(
+                  ({ id, titulo, descricao, status }: ICard) => {
+                    return (
+                      <Card
+                        key={crypto.randomUUID()}
+                        id={id}
+                        titulo={titulo}
+                        descricao={descricao}
+                        status={status}
+                      />
+                    );
+                  }
+                )
+            : null}
         </ListadeTarefas>
       </Container>
     </div>
