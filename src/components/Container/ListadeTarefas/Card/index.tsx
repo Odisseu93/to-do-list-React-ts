@@ -18,26 +18,17 @@ export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
   const dispatch = useDispatch();
   const cards = useSelector((state: any) => state.todos);
 
-  function handleTitleOnInput(e: React.FormEvent<HTMLInputElement>) {
-    tituloRef.current!.value = e.currentTarget.value;
-  }
-
-  function handleDescOnInput(e: React.FormEvent<HTMLTextAreaElement>) {
-    descricaoRef.current!.value = e.currentTarget.value;
-  }
-
   function handleOnChange(e: React.FormEvent<HTMLDivElement>) {
     const idTarget = e.currentTarget.id;
 
-    dispatch(
-      update({
+setTimeout(() => {
+  dispatch(update({
         id: String(idTarget),
         titulo: tituloRef.current?.value,
         descricao: descricaoRef.current?.value,
-        status: statusRef.current?.value,
-      })
-    );
-
+        status: statusRef.current?.value,}))
+}, 1000);
+  
     return;
   }
 
@@ -65,13 +56,11 @@ export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
         type="text"
         className="titulo"
         ref={tituloRef}
-        onInput={handleTitleOnInput}
         maxLength={50}
       />
       <textarea
         className="descricao"
         ref={descricaoRef}
-        onInput={handleDescOnInput}
         maxLength={200}
       />
       <b>Status </b>

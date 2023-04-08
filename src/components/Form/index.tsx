@@ -42,7 +42,7 @@ function Form() {
 
 
   const handleSubmit = () => {
-    const randomID8char = crypto.randomUUID().toString().substring(8);
+    const randomID8char = crypto.randomUUID().substring(4);
 
     dispatch(
       add({

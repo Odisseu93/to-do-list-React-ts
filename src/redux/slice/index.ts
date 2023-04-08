@@ -28,9 +28,9 @@ export const todoSlice = createSlice({
       const attributes = [titulo, descricao, status];
 
       if (attributes.includes(undefined) || attributes.includes("")) {
-        if (!titulo) return alert(`Você esqueceu o titulo!`);
-        if (!descricao) return alert(`Você esqueceu o descricao!`);
-        if (!status) return alert(`Você esqueceu o status!`);
+        if (!titulo) return console.error(`Você esqueceu o titulo!`);
+        if (!descricao) return console.error(`Você esqueceu o descricao!`);
+        if (!status) return console.error(`Você esqueceu o status!`);
       }
 
       const todos: ICard = {
@@ -46,9 +46,9 @@ export const todoSlice = createSlice({
       const attributes = [titulo, descricao, status];
 
       if (attributes.includes(undefined) || attributes.includes("")) {
-        if (!titulo) return alert(`Você esqueceu o titulo!`);
-        if (!descricao) return alert(`Você esqueceu o descricao!`);
-        if (!status) return alert(`Você esqueceu o status!`);
+        if (!titulo) return console.error(`Você esqueceu o titulo!`);
+        if (!descricao) return console.error(`Você esqueceu o descricao!`);
+        if (!status) return console.error(`Você esqueceu o status!`);
       }
       const todo: ICard = {
         id: id,
@@ -57,7 +57,7 @@ export const todoSlice = createSlice({
         status: status,
       };
       const index = state.findIndex((item) => item.id === id);
-      if (!state.find((item) => item.id === id)) return alert("não encontrado");
+      if (!state.find((item) => item.id === id)) return console.error("não encontrado");
       else {
         state.splice(index, 1, todo);
         return state;

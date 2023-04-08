@@ -7,7 +7,7 @@ function setDataLocalStorage<T>(key: string, data: T) {
 // recuperar dados
 const getDataLocalStorage = (key: string) => {
   if (localStorage[key] !== undefined) return JSON.parse(localStorage[key]);
-  else alert("dados não encontrados!");
+  // else alert("dados não encontrados!");
 };
 
 export { setDataLocalStorage, getDataLocalStorage };
