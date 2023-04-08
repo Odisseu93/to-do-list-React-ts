@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { ChangeEventHandler, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import trashIcon from "../Card/icons8-waste-24.png";
 import { ICard, remove, update } from "./../../../../redux/slice";
@@ -18,20 +18,23 @@ export const Card = ({ id, titulo, descricao, status }: ICardProps) => {
   const dispatch = useDispatch();
   const cards = useSelector((state: any) => state.todos);
 
-  function handleOnChange(e: React.FormEvent<HTMLDivElement>) {
-    const idTarget = e.currentTarget.id;
-
-setTimeout(() => {
-  dispatch(update({
-        id: String(idTarget),
+  const updateCard = (id: string) => {
+    dispatch(
+      update({
+        id: String(id),
         titulo: tituloRef.current?.value,
         descricao: descricaoRef.current?.value,
-        status: statusRef.current?.value,}))
-}, 1000);
-  
-    return;
-  }
+        status: statusRef.current?.value,
+      })
+    );
+  };
 
+  function handleOnChange(
+    e: React.FormEvent<HTMLDivElement | HTMLSelectElement>
+  ) {
+    const idTarget = e.currentTarget.id;
+    updateCard(idTarget);
+  }
   function handleDelete(e: React.MouseEvent<HTMLButtonElement>) {
     dispatch(remove({ id: String(e.currentTarget.parentElement?.id) }));
     return;
@@ -45,26 +48,22 @@ setTimeout(() => {
   return (
     <Tarefa
       id={id}
-      onChange={handleOnChange}
+      onBlur={handleOnChange}
       styleStatus={
         cards.find((item: ICard) => item.id === id)
           ? cards.find((item: ICard) => item.id === id).status
           : null
       }
     >
-      <input
-        type="text"
-        className="titulo"
-        ref={tituloRef}
-        maxLength={50}
-      />
-      <textarea
-        className="descricao"
-        ref={descricaoRef}
-        maxLength={200}
-      />
+      <input type="text" className="titulo" ref={tituloRef} maxLength={50} />
+      <textarea className="descricao" ref={descricaoRef} maxLength={200} />
       <b>Status </b>
-      <select id="status" className="select-status" ref={statusRef}>
+      <select
+        id="status"
+        className="select-status"
+        ref={statusRef}
+        onInput={()=> updateCard(String(id))}
+      >
         <option value="default" selected={status === "default" ? true : false}>
           -- Selecione um status --
         </option>
