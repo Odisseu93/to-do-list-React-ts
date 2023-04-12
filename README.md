@@ -16,6 +16,7 @@ A finalidade deste projeto é manipular alguns dados de componentes através das
 ## Construido Com
 - React.js
 - Typescript
+- Redux
 - [styled-components](https://styled-components.com/docs/basics#installation)
 ***
 ## Screenshots
